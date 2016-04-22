@@ -1,0 +1,27 @@
+# Milestone 1
+
+Class-level annotation @offheap denotes classes whose objects live
+off-heap. We use bytecode rewriting to turn
+
+@offheap
+class Cell<T> {
+  T data;
+  T get() { return data; }
+  void set(T v) { data = v; }
+}
+
+into (approx) 
+
+class Cell<T> {
+  static long create() { Heap.allocate(8); }
+  static T get(long this) { Heap.fieldLookup(this, 0); }
+  static void set(long this, T v) { Heap.fieldUpdate(this, 0, v); }
+}
+
+and all uses rewritten (approx)
+
+Cell<T> c   ==> long c
+new Cell<T> ==> Cell.create()
+c.get()     ==> Cell.get(c)
+c.set(v)    ==> Cell.set(c, v)
+
