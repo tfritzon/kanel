@@ -11,3 +11,6 @@ UUIDString.h: UUIDString.class
 
 UUIDString.class:
 	javac SimpleArray.java
+
+clean:
+	rm -f UUIDString.h *.jnilib *.class *.so *~ *.o
