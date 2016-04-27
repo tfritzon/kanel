@@ -1,6 +1,18 @@
 JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk1.7.0_75.jdk/Contents/Home
 
-all: UUIDString.jnilib Heap.jnilib
+all: UUIDString.jnilib Heap.jnilib libSTn.jnilib
+
+libSTn.jnilib: libSTn.o
+	gcc -dynamiclib -o libSTn.jnilib libSTn.o
+
+libSTn.o: libSTn.c STn.h
+	gcc -Wall -c libSTn.c -I${JAVA_HOME}/include -I${JAVA_HOME}/include/darwin
+
+STn.h: STn.class
+	javah STn
+
+STn.class:
+	javac STn.java
 
 Heap.jnilib: Heap.h Heap.c
 	gcc -Wall -c Heap.c -I${JAVA_HOME}/include -I${JAVA_HOME}/include/darwin
@@ -23,4 +35,4 @@ UUIDString.class:
 	javac SimpleArray.java
 
 clean:
-	rm -f *.jnilib *.class *.so *~ *.o UUIDString.h Heap.h
+	rm -f *.jnilib *.class *.so *~ *.o *.log *.h.gch UUIDString.h Heap.h STn.h

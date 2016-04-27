@@ -14,7 +14,7 @@ into (approx)
 
 class Cell<T> {
   static long create() { Heap.allocate(8); }
-  static T get(long this) { Heap.fieldLookup(this, 0); }
+  static T get(long this) { (T) Heap.fieldLookupObject(this, 0); }
   static void set(long this, T v) { Heap.fieldUpdate(this, 0, v); }
 }
 
