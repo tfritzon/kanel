@@ -1,5 +1,5 @@
 all:
-	javac -cp asm-5.0.3.jar:. Agent.java ClassPrinter.java
+	javac -cp asm-5.0.3.jar:. Agent.java ClassPrinter.java Test.java
 	jar cvfm test-agent.jar MANIFEST.MF *.class
 
 run: all
